@@ -8,15 +8,17 @@
 plugins {
     kotlin("jvm") version "1.3.50"
 
-    application
-}
+    id("org.jetbrains.kotlin.plugin.spring") version "1.3.50"
 
-application {
-    mainClassName = "MainKt"
+    id("org.springframework.boot") version "2.2.0.RELEASE"
+    id("io.spring.dependency-management") version "1.0.8.RELEASE"
 }
 
 dependencies {
     implementation(kotlin("stdlib"))
+    implementation(kotlin("reflect"))
+
+    implementation("org.springframework.boot:spring-boot-starter-web")
 }
 
 repositories {
