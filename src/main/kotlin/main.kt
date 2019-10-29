@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.data.repository.CrudRepository
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.time.LocalDate
 import javax.persistence.Column
@@ -27,7 +28,7 @@ class HelloController {
 class VideoGamesController(@Autowired val repository: VideoGamesRepository) {
     @CrossOrigin("http://127.0.0.1:3000")
     @GetMapping("/video-games")
-    fun listVideoGames(): Iterable<VideoGame> = repository.findAll()
+    fun listVideoGames(@RequestParam("author") author: String?) = repository.findByOptionalAuthor(author)
 }
 
 @Entity
@@ -40,7 +41,15 @@ class VideoGame(
         @Column(name = "image_url") var imageUrl: String
 )
 
-interface VideoGamesRepository : CrudRepository<VideoGame, Int>
+interface VideoGamesRepository : CrudRepository<VideoGame, Int> {
+    fun findByAuthorContaining(author: String): Iterable<VideoGame>
+}
+
+fun VideoGamesRepository.findByOptionalAuthor(author: String?): Iterable<VideoGame> = if (author != null) {
+    findByAuthorContaining(author)
+} else {
+    findAll()
+}
 
 fun main(args: Array<String>) {
     SpringApplication.run(Application::class.java, *args)
