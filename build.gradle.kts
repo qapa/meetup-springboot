@@ -8,6 +8,7 @@
 plugins {
     kotlin("jvm") version "1.3.50"
 
+    id("org.jetbrains.kotlin.plugin.jpa") version "1.3.50"
     id("org.jetbrains.kotlin.plugin.spring") version "1.3.50"
 
     id("org.springframework.boot") version "2.2.0.RELEASE"
@@ -18,7 +19,10 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation(kotlin("reflect"))
 
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
+
+    runtime("mysql:mysql-connector-java")
 }
 
 repositories {
