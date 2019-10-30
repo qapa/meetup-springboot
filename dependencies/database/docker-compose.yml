@@ -1,0 +1,14 @@
+version: "3.6"
+
+services:
+        mysql:
+                image: mysql:8.0.18
+                ports:
+                        - 3306:3306
+                volumes:
+                        - ./database.sql:/docker-entrypoint-initdb.d/database.sql
+                environment:
+                        MYSQL_ROOT_PASSWORD: pass
+                        MYSQL_DATABASE: meetup
+                        MYSQL_USER: user
+                        MYSQL_PASSWORD: pass
